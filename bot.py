@@ -176,22 +176,22 @@ def create_item_html(items):
             reply_markup = InlineKeyboardMarkup(keyboard)
 
             html = ""
-            html += "🎁 <b>{}</b> 🎁\n\n".format(item['title'])
+            html += "🎁 <b>{}</b> 🎁\n\n".format(item['title']).encode('utf-8')
 
             if 'description' in list(item.keys()):
-                html += "{}\n".format(item['description'])
+                html += "{}\n".format(item['description']).encode('utf-8')
 
-            html += "<a href='{}'>&#8205</a>\n".format(item['image'])
-
-            if 'savings' in list(item.keys()):
-                html += "❌ Non più: {}€ ❌\n\n".format(item['original_price'])
-
-            html += "💰 <b>Al prezzo di: {}</b> 💰\n\n".format(item['price'])
+            html += "<a href='{}'>&#8205</a>\n".format(item['image']).encode('utf-8')
 
             if 'savings' in list(item.keys()):
-                html += "✅ <b>Risparmi: {}€</b> ✅\n\n".format(item['savings'])
+                html += "❌ Non più: {}€ ❌\n\n".format(item['original_price']).encode('utf-8')
 
-            html += "<b><a href='{}'></a></b>".format(item['url'])
+            html += "💰 <b>Al prezzo di: {}</b> 💰\n\n".format(item['price']).encode('utf-8')
+
+            if 'savings' in list(item.keys()):
+                html += "✅ <b>Risparmi: {}€</b> ✅\n\n".format(item['savings']).encode('utf-8')
+
+            html += "<b><a href='{}'></a></b>".format(item['url']).encode('utf-8')
 
             response.append(html)
             response.append(reply_markup)
