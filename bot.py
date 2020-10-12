@@ -74,7 +74,7 @@ def parse_response(response):
                     and item_0.offers.listings[0].price.display_amount is not None
             ):
 
-                it_parsed["price"] = '{}'.format(item_0.offers.listings[0].price.display_amount).encode('utf-8')
+                it_parsed["price"] = f'{item_0.offers.listings[0].price.display_amount}'
         res_items.append(it_parsed)
     return res_items
 
@@ -176,22 +176,22 @@ def create_item_html(items):
             reply_markup = InlineKeyboardMarkup(keyboard)
 
             html = ""
-            html += "🎁 <b>{}</b> 🎁\n\n".format(item['title']).encode('utf-8')
+            html += f"🎁 <b>{item['title']}</b> 🎁\n\n"
 
             if 'description' in list(item.keys()):
-                html += "{}\n".format(item['description']).encode('utf-8')
+                html += f"{item['description']}\n"
 
-            html += "<a href='{}'>&#8205</a>\n".format(item['image']).encode('utf-8')
-
-            if 'savings' in list(item.keys()):
-                html += "❌ Non più: {}€ ❌\n\n".format(item['original_price']).encode('utf-8')
-
-            html += "💰 <b>Al prezzo di: {}</b> 💰\n\n".format(item['price']).encode('utf-8')
+            html += f"<a href='{item['image']}'>&#8205</a>\n"
 
             if 'savings' in list(item.keys()):
-                html += "✅ <b>Risparmi: {}€</b> ✅\n\n".format(item['savings']).encode('utf-8')
+                html += f"❌ Non più: {item['original_price']}€ ❌\n\n"
 
-            html += "<b><a href='{}'></a></b>".format(item['url']).encode('utf-8')
+            html += f"💰 <b>Al prezzo di: {item['price']}</b> 💰\n\n"
+
+            if 'savings' in list(item.keys()):
+                html += f"✅ <b>Risparmi: {item['savings']}€</b> ✅\n\n"
+
+            html += f"<b><a href='{item['url']}'></a></b>"
 
             response.append(html)
             response.append(reply_markup)
