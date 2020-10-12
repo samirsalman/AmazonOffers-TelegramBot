@@ -74,7 +74,7 @@ def parse_response(response):
                     and item_0.offers.listings[0].price.display_amount is not None
             ):
 
-                it_parsed["price"] = '{}'.format(item_0.offers.listings[0].price.display_amount)
+                it_parsed["price"] = '{}'.format(item_0.offers.listings[0].price.display_amount).encode('utf-8')
         res_items.append(it_parsed)
     return res_items
 
