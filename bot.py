@@ -206,8 +206,8 @@ random.shuffle(keywords)
 from itertools import chain
 
 while True:
+    items_full = []
     for el in keywords:
-        items_full = []
         for i in range(1,10):
             items = search_items(el, "Electronics", item_page=i)
             time.sleep(1)
