@@ -199,7 +199,8 @@ def create_item_html(items):
 
 
 
-keywords = ["Offerte del giorno", "Offerte a tempo", "Migliori offerte", "Imperdibile", "Offerta", "Sotto costo", "Offertissima", "Offerta della settimana", "Prime day"]
+keywords = ["Offerte del giorno", "Offerte a tempo", "Migliori offerte", "Cellulari", "Notebook", "SSD", "GoPro",
+            "Smartwatch", "Televisioni","Xiaomi","Huaweii"]
 
 random.shuffle(keywords)
 from itertools import chain
@@ -212,29 +213,29 @@ while True:
             time.sleep(1)
             items_full.append(items)
 
-        items_full = list(chain(*items_full))
-        res = create_item_html(items_full)
-        while len(res) > 3:
-            try:
-                # status = bot.send_message(chat_id="@RisparmiHandy", text=built_item, parse_mode=telegram.ParseMode.HTML)
-                bot.send_message(chat_id="@RisparmiHandy", text=res[0], reply_markup=res[1],
-                                          parse_mode=telegram.ParseMode.HTML)
-                bot.send_message(chat_id="@RisparmiHandy", text=res[2], reply_markup=res[3],
-                                          parse_mode=telegram.ParseMode.HTML)
-                res.pop(0)
-                res.pop(0)
-                res.pop(0)
-                res.pop(0)
+    items_full = list(chain(*items_full))
+    res = create_item_html(items_full)
+    while len(res) > 3:
+        try:
+            # status = bot.send_message(chat_id="@RisparmiHandy", text=built_item, parse_mode=telegram.ParseMode.HTML)
+            bot.send_message(chat_id="@RisparmiHandy", text=res[0], reply_markup=res[1],
+                                      parse_mode=telegram.ParseMode.HTML)
+            bot.send_message(chat_id="@RisparmiHandy", text=res[2], reply_markup=res[3],
+                                      parse_mode=telegram.ParseMode.HTML)
+            res.pop(0)
+            res.pop(0)
+            res.pop(0)
+            res.pop(0)
 
-            except Exception as e:
-                print(e)
-                res.pop(0)
-                res.pop(0)
-                res.pop(0)
-                res.pop(0)
-                continue
+        except Exception as e:
+            print(e)
+            res.pop(0)
+            res.pop(0)
+            res.pop(0)
+            res.pop(0)
+            continue
 
-            time.sleep(60*15)
+        time.sleep(60*15)
 
 
 
