@@ -235,7 +235,7 @@ while True:
             res.pop(0)
             continue
 
-        time.sleep(60*10)
+        time.sleep(60*12)
 
 
 
