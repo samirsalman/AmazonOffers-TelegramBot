@@ -200,7 +200,7 @@ def create_item_html(items):
 
 
 keywords = ["Offerte del giorno", "Offerte a tempo", "Migliori offerte", "Cellulari", "Notebook", "SSD", "GoPro",
-            "Smartwatch", "Televisioni","Xiaomi","Huaweii"]
+            "Smartwatch", "Televisioni", "Xiaomi", "Huawei", "TV" , "Fotocamera"]
 
 random.shuffle(keywords)
 from itertools import chain
@@ -212,7 +212,7 @@ while True:
             items = search_items(el, "Electronics", item_page=i)
             time.sleep(1)
             items_full.append(items)
-
+    random.shuffle(items_full)
     items_full = list(chain(*items_full))
     res = create_item_html(items_full)
     while len(res) > 3:
@@ -235,7 +235,7 @@ while True:
             res.pop(0)
             continue
 
-        time.sleep(60*15)
+        time.sleep(60*10)
 
 
 
