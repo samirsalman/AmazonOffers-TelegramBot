@@ -6,6 +6,9 @@ from paapi5_python_sdk.models.search_items_resource import SearchItemsResource
 from paapi5_python_sdk.rest import ApiException
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 import time
+from datetime import datetime
+from itertools import chain
+
 
 
 
@@ -166,6 +169,7 @@ import random
 def create_item_html(items):
     response = []
     print(len(items))
+    print(f'{5 * "*"} Creating post {5 * "*"}')
 
     random.shuffle(items)
     for item in items:
@@ -199,11 +203,9 @@ def create_item_html(items):
 
 
 
-keywords = ["Offerte del giorno", "Offerte a tempo", "Migliori offerte", "Cellulari", "Notebook", "SSD", "GoPro",
-            "Smartwatch", "Televisioni", "Xiaomi", "Huawei", "TV" , "Fotocamera"]
+keywords = ["Televisori", "Notebook","Tablet","Apple","Samsung","Smartwatch","Auricolari Bluetooth","Fotocamera","Videocamera"]
 
 random.shuffle(keywords)
-from itertools import chain
 
 while True:
     items_full = []
@@ -212,11 +214,19 @@ while True:
             items = search_items(el, "Electronics", item_page=i)
             time.sleep(1)
             items_full.append(items)
-    random.shuffle(items_full)
     items_full = list(chain(*items_full))
+    print(f'{5 * "*"} Requests Completed {5 * "*"}')
+
+    random.shuffle(items_full)
+    random.shuffle(items_full)
     res = create_item_html(items_full)
     while len(res) > 3:
+        now = datetime.now().time()
+        while now.hour < 7:
+            print(f'{5 * "*"} Inactive Bot, before 9:00 AM {5 * "*"}')
+
         try:
+            print(f'{5*"*"} Sending posts to channel {5*"*"}')
             # status = bot.send_message(chat_id="@RisparmiHandy", text=built_item, parse_mode=telegram.ParseMode.HTML)
             bot.send_message(chat_id="@RisparmiHandy", text=res[0], reply_markup=res[1],
                                       parse_mode=telegram.ParseMode.HTML)
