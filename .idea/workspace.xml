@@ -39,7 +39,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Evaluation script">
+  <component name="RunManager" selected="Python.bot">
     <configuration name="Evaluation script" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="TelegramBot" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -84,8 +84,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.Evaluation script" />
         <item itemvalue="Python.bot" />
+        <item itemvalue="Python.Evaluation script" />
       </list>
     </recent_temporary>
   </component>
