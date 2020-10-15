@@ -243,11 +243,11 @@ while True:
                     res.pop(0)
                     continue
 
-                time.sleep(60*12)
+                time.sleep(60*60)
 
             else:
                 print(f'{5 * "*"} Inactive Bot, between  {MIN_HOUR}AM and {MAX_HOUR}PM {5 * "*"}')
-                time.sleep(60 * 60)
+                time.sleep(60 * 5)
     except Exception as e:
         print(e)
 
