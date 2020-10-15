@@ -202,49 +202,52 @@ def create_item_html(items):
     return response
 
 
-MAX_HOUR = 23
+MAX_HOUR = 24
 MIN_HOUR = 9
 
 keywords = ["Televisori", "Notebook","Tablet","Apple","Samsung","Smartwatch","Auricolari Bluetooth","Fotocamera","Videocamera"]
 
 random.shuffle(keywords)
 while True:
-    items_full = []
-    for el in keywords:
-        for i in range(1, 10):
-            items = search_items(el, "Electronics", item_page=i)
-            time.sleep(1)
-            items_full.append(items)
-    items_full = list(chain(*items_full))
-    print(f'{5 * "*"} Requests Completed {5 * "*"}')
+    try:
+        items_full = []
+        for el in keywords:
+            for i in range(1, 10):
+                items = search_items(el, "Electronics", item_page=i)
+                time.sleep(1)
+                items_full.append(items)
+        items_full = list(chain(*items_full))
+        print(f'{5 * "*"} Requests Completed {5 * "*"}')
 
-    random.shuffle(items_full)
-    random.shuffle(items_full)
-    res = create_item_html(items_full)
-    while len(res) > 3:
-        now = datetime.now().time()
-        if MIN_HOUR - 2 < now.hour < MAX_HOUR - 2:
-            try:
-                print(f'{5*"*"} Sending posts to channel {5*"*"}')
-                # status = bot.send_message(chat_id="@RisparmiHandy", text=built_item, parse_mode=telegram.ParseMode.HTML)
-                bot.send_message(chat_id="@RisparmiHandy", text=res[0], reply_markup=res[1],parse_mode=telegram.ParseMode.HTML)
-                bot.send_message(chat_id="@RisparmiHandy", text=res[2], reply_markup=res[3],parse_mode=telegram.ParseMode.HTML)
-                res.pop(0)
-                res.pop(0)
-                res.pop(0)
-                res.pop(0)
+        random.shuffle(items_full)
+        random.shuffle(items_full)
+        res = create_item_html(items_full)
+        while len(res) > 3:
+            now = datetime.now().time()
+            if MIN_HOUR - 2 < now.hour < MAX_HOUR - 2:
+                try:
+                    print(f'{5*"*"} Sending posts to channel {5*"*"}')
+                    # status = bot.send_message(chat_id="@RisparmiHandy", text=built_item, parse_mode=telegram.ParseMode.HTML)
+                    bot.send_message(chat_id="@RisparmiHandy", text=res[0], reply_markup=res[1],parse_mode=telegram.ParseMode.HTML)
+                    bot.send_message(chat_id="@RisparmiHandy", text=res[2], reply_markup=res[3],parse_mode=telegram.ParseMode.HTML)
+                    res.pop(0)
+                    res.pop(0)
+                    res.pop(0)
+                    res.pop(0)
 
-            except Exception as e:
-                print(e)
-                res.pop(0)
-                res.pop(0)
-                res.pop(0)
-                res.pop(0)
-                continue
+                except Exception as e:
+                    print(e)
+                    res.pop(0)
+                    res.pop(0)
+                    res.pop(0)
+                    res.pop(0)
+                    continue
 
-            time.sleep(60*12)
+                time.sleep(60*12)
 
-        else:
-            print(f'{5 * "*"} Inactive Bot, between  {MIN_HOUR}AM and {MAX_HOUR}PM {5 * "*"}')
-            time.sleep(60 * 5)
+            else:
+                print(f'{5 * "*"} Inactive Bot, between  {MIN_HOUR}AM and {MAX_HOUR}PM {5 * "*"}')
+                time.sleep(60 * 60)
+    except Exception as e:
+        print(e)
 
