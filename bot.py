@@ -1,253 +1,103 @@
 import telegram
-from paapi5_python_sdk.api.default_api import DefaultApi
-from paapi5_python_sdk.models.partner_type import PartnerType
-from paapi5_python_sdk.models.search_items_request import SearchItemsRequest
-from paapi5_python_sdk.models.search_items_resource import SearchItemsResource
-from paapi5_python_sdk.rest import ApiException
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from amazon_api import search_items
+from create_messages import create_item_html
 import time
 from datetime import datetime
 from itertools import chain
-
-
-
-
-TOKEN = '1335257776:AAGVntrtlXJ9ADDEoBdLMHrfjl5bWHRYEXI'
-
-#instanciate the bot
-bot = telegram.Bot(token=TOKEN)
-
-#to send message in channel
-#status = bot.send_message(chat_id="@RisparmiHandy", text="Test", parse_mode=telegram.ParseMode.HTML)
-
-
-
-def parse_response(response):
-    items = response.search_result.items
-    res_items = []
-
-    for item_0 in items:
-        it_parsed = {}
-
-
-
-        if item_0 is not None:
-
-            if item_0.images.primary.large is not None:
-                it_parsed["image"] = item_0.images.primary.large.url
-
-            if item_0.item_info.features is not None and item_0.item_info.features.display_values is not None:
-                desc = ""
-                tmp = item_0.item_info.features.display_values
-                length = 0
-                for el in tmp:
-                    if length < 3:
-                        desc += el
-                        length += 1
-                    else:
-                        break
-                if len(desc)>24:
-                    it_parsed["description"] = desc[0:24]
-
-            if item_0.offers is not None and item_0.offers.listings[0] is not None and item_0.offers.listings[0].price.savings is not None:
-                if item_0.offers.listings[0].is_buy_box_winner is not None:
-                    it_parsed["off"] = item_0.offers.listings[0].is_buy_box_winner
-
-
-                it_parsed["savings"] = item_0.offers.listings[0].price.savings.amount
-                op = float(item_0.offers.listings[0].price.savings.amount) + float(item_0.offers.listings[0].price.amount)
-                it_parsed["original_price"] = '%.2f'%(op)
-
-
-
-            if item_0.asin is not None:
-                it_parsed["id"] = item_0.asin
-            if item_0.detail_page_url is not None:
-                it_parsed["url"] = item_0.detail_page_url
-            if (
-                    item_0.item_info is not None
-                    and item_0.item_info.title is not None
-                    and item_0.item_info.title.display_value is not None
-            ):
-                it_parsed["title"] = item_0.item_info.title.display_value
-            if (
-                    item_0.offers is not None
-                    and item_0.offers.listings is not None
-                    and item_0.offers.listings[0].price is not None
-                    and item_0.offers.listings[0].price.display_amount is not None
-            ):
-
-                it_parsed["price"] = f'{item_0.offers.listings[0].price.display_amount}'
-        res_items.append(it_parsed)
-    return res_items
-
-
-
-#function that search amazon products
-def search_items(keywords, search_index="All", item_page=1):
-
-    access_key = "AKIAILT2XQ443ZGHJ35A"
-
-    secret_key = "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"
-
-    partner_tag = "cgm-21"
-
-    host = "webservices.amazon.it"
-    region = "eu-west-1"
-
-    default_api = DefaultApi(
-        access_key=access_key, secret_key=secret_key, host=host, region=region
-    )
-
-
-    """ Specify the category in which search request is to be made """
-    """ For more details, refer: https://webservices.amazon.com/paapi5/documentation/use-cases/organization-of-items-on-amazon/search-index.html """
-
-
-    """ Specify item count to be returned in search result """
-    item_count = 20
-
-
-
-    """ Choose resources you want from SearchItemsResource enum """
-    """ For more details, refer: https://webservices.amazon.com/paapi5/documentation/search-items.html#resources-parameter """
-    search_items_resource = [
-        SearchItemsResource.ITEMINFO_TITLE,
-        SearchItemsResource.OFFERS_LISTINGS_PRICE,
-        SearchItemsResource.IMAGES_PRIMARY_LARGE,
-        SearchItemsResource.OFFERS_LISTINGS_SAVINGBASIS,
-        SearchItemsResource.ITEMINFO_FEATURES,
-        SearchItemsResource.OFFERS_LISTINGS_PROMOTIONS,
-        SearchItemsResource.OFFERS_LISTINGS_CONDITION,
-        SearchItemsResource.OFFERS_LISTINGS_ISBUYBOXWINNER
-    ]
-
-    """ Forming request """
-    try:
-        search_items_request = SearchItemsRequest(
-            partner_tag=partner_tag,
-            partner_type=PartnerType.ASSOCIATES,
-            keywords=keywords,
-            search_index=search_index,
-            item_count=item_count,
-            resources=search_items_resource,
-            item_page=item_page
-        )
-    except ValueError as exception:
-        print("Error in forming SearchItemsRequest: ", exception)
-        return
-
-    try:
-        """ Sending request """
-        response = default_api.search_items(search_items_request)
-        print("Request received")
-        res = parse_response(response)
-
-        if response.errors is not None:
-            print("\nPrinting Errors:\nPrinting First Error Object from list of Errors")
-            print("Error code", response.errors[0].code)
-            print("Error message", response.errors[0].message)
-        return res
-
-    except ApiException as exception:
-        print("Error calling PA-API 5.0!")
-        print("Status code:", exception.status)
-        print("Errors :", exception.body)
-        print("Request ID:", exception.headers["x-amzn-RequestId"])
-
-    except TypeError as exception:
-        print("TypeError :", exception)
-
-    except ValueError as exception:
-        print("ValueError :", exception)
-
-    except Exception as exception:
-        print("Exception :", exception)
-
 import random
 
-def create_item_html(items):
-    response = []
-    print(len(items))
-    print(f'{5 * "*"} Creating post {5 * "*"}')
+# ********** Author: Samir Salman **********
 
-    random.shuffle(items)
-    for item in items:
-        if 'off' in item:
-            keyboard = [
-                [InlineKeyboardButton("🛒 Acquista ora 🛒", callback_data='buy', url=item["url"])],
-            ]
-            reply_markup = InlineKeyboardMarkup(keyboard)
+# ***** Telegram TOKEN and parameters Definition *****
+TOKEN = '<YOUR TELEGRAM TOKEN>'
+CHANNEL_NAME = '<YOUR TELEGRAM CHANNEL NAME>'
 
-            html = ""
-            html += f"🎁 <b>{item['title']}</b> 🎁\n\n"
-
-            if 'description' in list(item.keys()):
-                html += f"{item['description']}\n"
-
-            html += f"<a href='{item['image']}'>&#8205</a>\n"
-
-            if 'savings' in list(item.keys()):
-                html += f"❌ Non più: {item['original_price']}€ ❌\n\n"
-
-            html += f"💰 <b>Al prezzo di: {item['price']}</b> 💰\n\n"
-
-            if 'savings' in list(item.keys()):
-                html += f"✅ <b>Risparmi: {item['savings']}€</b> ✅\n\n"
-
-            html += f"<b><a href='{item['url']}'></a></b>"
-
-            response.append(html)
-            response.append(reply_markup)
-    return response
-
-
-MAX_HOUR = 24
+# ***** BOT ACTIVITY TIME *****
 MIN_HOUR = 9
+MAX_HOUR = 24
+PAUSE_MINUTES = 12
 
-keywords = ["Televisori", "Notebook","Tablet","Apple","Samsung","Smartwatch","Auricolari Bluetooth","Fotocamera","Videocamera"]
+# ***** SEARCH CATEGORY DEFINITION *****
+CATEGORY = "<SEARCH CATEGORY>"
 
-random.shuffle(keywords)
-while True:
-    try:
-        items_full = []
-        for el in keywords:
-            for i in range(1, 10):
-                items = search_items(el, "Electronics", item_page=i)
-                time.sleep(1)
-                items_full.append(items)
-        items_full = list(chain(*items_full))
-        print(f'{5 * "*"} Requests Completed {5 * "*"}')
+# Create the bot instance
+bot = telegram.Bot(token=TOKEN)
 
-        random.shuffle(items_full)
-        random.shuffle(items_full)
-        res = create_item_html(items_full)
-        while len(res) > 3:
-            now = datetime.now().time()
-            if MIN_HOUR - 2 < now.hour < MAX_HOUR - 2:
-                try:
-                    print(f'{5*"*"} Sending posts to channel {5*"*"}')
-                    # status = bot.send_message(chat_id="@RisparmiHandy", text=built_item, parse_mode=telegram.ParseMode.HTML)
-                    bot.send_message(chat_id="@RisparmiHandy", text=res[0], reply_markup=res[1],parse_mode=telegram.ParseMode.HTML)
-                    bot.send_message(chat_id="@RisparmiHandy", text=res[2], reply_markup=res[3],parse_mode=telegram.ParseMode.HTML)
-                    res.pop(0)
-                    res.pop(0)
-                    res.pop(0)
-                    res.pop(0)
+# Search keywords definition
+keywords = ["Televisori", "Notebook", "Tablet", "Apple", "Samsung", "Smartwatch", "Auricolari Bluetooth", "Fotocamera",
+            "Videocamera"]
 
-                except Exception as e:
-                    print(e)
-                    res.pop(0)
-                    res.pop(0)
-                    res.pop(0)
-                    res.pop(0)
-                    continue
 
-                time.sleep(60*60)
+# run bot function
+def run_bot(bot, keywords):
+    # shuffling keywords list
+    random.shuffle(keywords)
 
-            else:
-                print(f'{5 * "*"} Inactive Bot, between  {MIN_HOUR}AM and {MAX_HOUR}PM {5 * "*"}')
-                time.sleep(60 * 5)
-    except Exception as e:
-        print(e)
+    # start loop
+    while True:
+        try:
+            items_full = []
 
+            # iterate over keywords
+            for el in keywords:
+                # iterate over pages
+                for i in range(1, 10):
+
+                    items = search_items(el, CATEGORY, item_page=i)
+
+                    # api time limit for another http request is 1 second
+                    time.sleep(1)
+
+                    items_full.append(items)
+
+            # concatenate all results
+            items_full = list(chain(*items_full))
+            print(f'{5 * "*"} Requests Completed {5 * "*"}')
+
+            # shuffling results 5 times
+            for t in range(5):
+                random.shuffle(items_full)
+
+            # creating html message, you can find more information in create_messages.py
+            res = create_item_html(items_full)
+
+            # while we have items in our list
+            while len(res) > 3:
+                now = datetime.now().time()
+
+                # if bot is active
+
+                if MIN_HOUR - 2 < now.hour < MAX_HOUR - 2:
+                    try:
+                        # Sending two consecutive messages
+
+                        print(f'{5 * "*"} Sending posts to channel {5 * "*"}')
+
+                        bot.send_message(chat_id=CHANNEL_NAME, text=res[0], reply_markup=res[1],
+                                         parse_mode=telegram.ParseMode.HTML)
+
+                        bot.send_message(chat_id=CHANNEL_NAME, text=res[2], reply_markup=res[3],
+                                         parse_mode=telegram.ParseMode.HTML)
+                        for index in range(3):
+                            res.pop(0)
+
+                    except Exception as e:
+                        print(e)
+                        for index in range(3):
+                            res.pop(0)
+                        continue
+
+                    # Sleep for PAUSE_MINUTES
+                    time.sleep(60 * PAUSE_MINUTES)
+
+                else:
+                    # if bot is not active
+                    print(f'{5 * "*"} Inactive Bot, between  {MIN_HOUR}AM and {MAX_HOUR}PM {5 * "*"}')
+                    time.sleep(60 * 5)
+
+        except Exception as e:
+            print(e)
+
+
+# running bot
+run_bot(bot, keywords)
