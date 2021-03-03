@@ -66,6 +66,12 @@ for all the activity time. When all results have been sent, it restart his loop.
 After cloning the repository, define all parameters in the code, install all packages and then start bot with command:
 ```python bot.py``` or ```python3 bot.py```
 
+## Message Structure
+
+![image](https://user-images.githubusercontent.com/33979978/109800731-dbe44c80-7c1d-11eb-8316-fd5275cb5b46.png)
+
+This is a generated telegram channel message example, you can edit the message structure on  ```create_messages.py``` code.
+
 ## Author
 
 Samir Salman
