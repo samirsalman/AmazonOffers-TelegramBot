@@ -1,5 +1,7 @@
 # Amazon Offers Telegram Bot
 
+<img src="https://user-images.githubusercontent.com/33979978/109801185-70e74580-7c1e-11eb-847a-dbd6e09c21a3.png" alt="logo" width=300>
+
 This project is a Telegram Bot connected to a Telegram Channel that check Amazon offers and send them to your Channel.
 
 ## Requirements
