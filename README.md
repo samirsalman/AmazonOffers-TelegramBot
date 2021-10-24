@@ -6,6 +6,16 @@ This project is a Telegram Bot connected to a Telegram Channel that check Amazon
 
 ## Requirements
 
+### SCRIPT INSTALLER
+
+Now you can run the ```script.sh``` file from the terminal to install all dependencies, included paapi5 package. Open a terminal in the working directory, then type ```bash script.sh``` and launch the command. 
+
+
+
+### MANUAL INSTALLER
+
+### **If you used the ```script.sh``` method you can skip the following step.**
+
 In order to use this bot you must done following step:
 
 - Create a telegram bot (https://core.telegram.org/bots)
