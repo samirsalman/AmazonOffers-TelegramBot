@@ -4,20 +4,15 @@ from paapi5_python_sdk.models.search_items_request import SearchItemsRequest
 from paapi5_python_sdk.models.search_items_resource import SearchItemsResource
 from paapi5_python_sdk.rest import ApiException
 from response_parser import parse_response
-
-# ***** Amazon API Keys and parameters *****
-access_key = "<YOUR AMAZON ACCESS KEY>"
-secret_key = "<YOUR AMAZON SECRET KEY>"
-partner_tag = "<YOUR AMAZON PARTNER TAG>"
-host = "<YOUR AMAZON HOST>"
-region = "<YOUR AMAZON REGION>"
-
-
+from consts import *
 
 # function that search amazon products
 def search_items(keywords, search_index="All", item_page=1):
     default_api = DefaultApi(
-        access_key=access_key, secret_key=secret_key, host=host, region=region
+        access_key=AMAZON_ACCESS_KEY,
+        secret_key=AMAZON_SECRET_KEY,
+        host=AMAZON_HOST,
+        region=AMAZON_REGION,
     )
 
     """ Specify the category in which search request is to be made """
@@ -36,26 +31,26 @@ def search_items(keywords, search_index="All", item_page=1):
         SearchItemsResource.ITEMINFO_FEATURES,
         SearchItemsResource.OFFERS_LISTINGS_PROMOTIONS,
         SearchItemsResource.OFFERS_LISTINGS_CONDITION,
-        SearchItemsResource.OFFERS_LISTINGS_ISBUYBOXWINNER
+        SearchItemsResource.OFFERS_LISTINGS_ISBUYBOXWINNER,
     ]
 
     """ Forming request """
     try:
         search_items_request = SearchItemsRequest(
-            partner_tag=partner_tag,
+            partner_tag=PARTNER_TAG,
             partner_type=PartnerType.ASSOCIATES,
             keywords=keywords,
             search_index=search_index,
             item_count=item_count,
             resources=search_items_resource,
-            item_page=item_page
+            item_page=item_page,
         )
     except ValueError as exception:
         print("Error in forming SearchItemsRequest: ", exception)
         return
 
     try:
-        """ Sending request """
+        """Sending request"""
         response = default_api.search_items(search_items_request)
         print("Request received")
         res = parse_response(response)
@@ -80,5 +75,3 @@ def search_items(keywords, search_index="All", item_page=1):
 
     except Exception as exception:
         print("Exception :", exception)
-
-
