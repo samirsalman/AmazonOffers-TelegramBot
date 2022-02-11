@@ -61,8 +61,10 @@ The bot is running in a while loop, you can define your favorite parameters for:
 - Amazon Search Categories
 - Search Keywords
 
-**NOW YOU CAN SEARCH OVER MULTIPLE CATEGORIES** : _in `bot.py` you need to specify your categories and a list of keywords for each category. The corresponding variable is `categories`, it accept a dictionary like:_ json```{"1_CATEGORY_NAME":[LIST OF KEYWORD],
-        "2_CATEGORY_NAME":[LIST OF KEYWORD]
+**NOW YOU CAN SEARCH OVER MULTIPLE CATEGORIES** : _in `bot.py` you need to specify your categories and a list of keywords for each category. The corresponding variable is `categories`, it accept a dictionary like:_ ```json
+{
+  "1_CATEGORY_NAME":[LIST OF KEYWORD],
+  "2_CATEGORY_NAME":[LIST OF KEYWORD]
 }```
 
 The bot is active if the time is between **MIN_HOUR** and **MAX_HOUR** (_you can deactivate it during the night for example_)  , you can define these parameters in the code.
