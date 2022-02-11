@@ -16,7 +16,7 @@ Now you can run the ```script.sh``` file from the terminal to install all depend
 
 ### **If you used the ```script.sh``` method you can skip the following step.**
 
-In order to use this bot you must done following step:
+In order to use this bot you must complete the following steps:
 
 - Create a telegram bot (https://core.telegram.org/bots)
 - Create an Amazon Affiliation (https://programma-affiliazione.amazon.it/)
@@ -38,11 +38,13 @@ In order to use this bot you must done following step:
 The project is organized like follow:
 
 - **bot.py**
-  - Contains the bot start code **HERE YOU MUST PUT YOUR TELEGRAM API KEYS AND PARAMETERS**
+  - Contains the bot start code 
 
+- **consts.py**
+  - **HERE YOU MUST PUT YOUR TELEGRAM API KEYS AND PARAMETERS AND YOUR AMAZON API KEYS AND PARAMETERS**
 
 - **amazon_api.py**
-  - Contain amazon api function to search products, **HERE YOU MUST PUT YOUR AMAZON API KEYS AND PARAMETERS**
+  - Contain amazon api function to search products
 
 
 - **response_parser.py**
@@ -53,12 +55,13 @@ The project is organized like follow:
   - message creation functions
 
 ## How it works
-
 The bot is running in a while loop, you can define your favorite parameters for:
 - Hours of activity
 - Pause time between messages
-- Amazon Search Category
+- Amazon Search Categories
 - Search Keywords
+
+
 
 The bot is active if the time is between **MIN_HOUR** and **MAX_HOUR** (_you can deactivate it during the night for example_)  , you can define these parameters in the code.
 
@@ -73,6 +76,14 @@ The bot make all http requests to Amazon API at start, save a list of all result
 
 for all the activity time. When all results have been sent, it restart his loop.
 
+### **NOW YOU CAN SEARCH OVER MULTIPLE CATEGORIES** : _in `bot.py` you need to specify your categories and a list of keywords for each category. The corresponding variable is `categories`, it accept a dictionary like:_ 
+```python
+{
+  "1_CATEGORY_NAME":[LIST OF KEYWORD],
+  "2_CATEGORY_NAME":[LIST OF KEYWORD]
+}
+```
+  
 ## Usage
 
 After cloning the repository, define all parameters in the code, install all packages and then start bot with command:
