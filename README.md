@@ -88,6 +88,14 @@ for all the activity time. When all results have been sent, it restart his loop.
 
 After cloning the repository, define all parameters in the code, install all packages and then start bot with command:
 ```python bot.py``` or ```python3 bot.py```
+  
+## Support 
+If you need support for the installation and usage of the library you can write to:
+- tgofferbot@gmail.com
+  
+In order to mantain and improve the library consider to contribute:
+  
+[![paypal](https://user-images.githubusercontent.com/33979978/187162516-5a6576a0-b44d-4e01-bcc6-fd0c262e683a.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7HWMJSGMCCTB6)
 
 ## Message Structure
 
