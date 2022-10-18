@@ -21,16 +21,8 @@ A dictionary with {CATEGORY_NAME: [<LIST OF THE CATEGORY KEYWORDS>]}
 """
 
 categories = {
-    "TECHNOLOGY": [
+    "Electronics": [
         "Televisori",
-        "Notebook",
-        "Tablet",
-        "Apple",
-        "Samsung",
-        "Smartwatch",
-        "Auricolari Bluetooth",
-        "Fotocamera",
-        "Videocamera",
     ]
 }
 

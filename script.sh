@@ -1,6 +1,5 @@
-#!/bin/bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 cd paapi5-python-sdk
-python setup.py build
-python setup.py install
+python3 setup.py build
+python3 setup.py install
 cd ..
