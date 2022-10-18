@@ -21,16 +21,16 @@ In order to use this bot you must complete the following steps:
 - Create a telegram bot (https://core.telegram.org/bots)
 - Create an Amazon Affiliation (https://programma-affiliazione.amazon.it/)
 - Put all of your keys (Amazon and Telegram API Keys) in the code, we are going to define how below
-- **Install packages, you can install them with pip**:
-  - python-telegram-bot
-  - itertools
-  - datetime
 
-
-- **Install Amazon paapi5 package**:
-  - open your terminal
-  - go to <project directory>/paapi5-python-sdk
-  - launch the command: ```python setup.py ``` or ```python3 setup.py ``` 	
+- **Install packages**:
+In the root of the project run:
+```bash
+pip3 install -r requirements.txt
+cd paapi5-python-sdk
+python3 setup.py build
+python3 setup.py install
+cd ..
+```
 
 
 ## Project Structure
@@ -42,6 +42,8 @@ The project is organized like follow:
 
 - **consts.py**
   - **HERE YOU MUST PUT YOUR TELEGRAM API KEYS AND PARAMETERS AND YOUR AMAZON API KEYS AND PARAMETERS**
+  - **THE CHANNEL_NAME SHOULD START WITH @ (for example @MyChannelName)**
+  
 
 - **amazon_api.py**
   - Contain amazon api function to search products
