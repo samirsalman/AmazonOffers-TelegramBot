@@ -1,5 +1,12 @@
 # Amazon Offers Telegram Bot
 
+🚀 Exciting News!
+I’m working on a platform that makes it easy to create Telegram bots — no coding required. If you’re interested in streamlining bot creation. I’d love to have you on the early access waitlist.
+
+[👉 Join the Waitlist](https://botspawner.cloud)
+
+
+
 <img src="https://user-images.githubusercontent.com/33979978/109801185-70e74580-7c1e-11eb-847a-dbd6e09c21a3.png" alt="logo" width=300>
 
 This project is a Telegram Bot connected to a Telegram Channel that check Amazon offers and send them to your Channel.
